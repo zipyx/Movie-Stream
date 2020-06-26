@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Clam.Areas.Clamflix.Models.AreaFilmflixCategory>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/clamflix/film">Films</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Category</li>
+    </ol>
+</nav>
+@* Requires Permissions for Role on Adding New Genre *@
+<p>
+    @Html.ActionLink("New Genre", "PostUploadCategory", "Film", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.LastModified)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th class="text-center"></th>
+            <th class="text-center">
+                <code>Delete</code>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.LastModified)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td class="text-center">
+                    @Html.ActionLink("Update", "CategorySelect", "Film", new { id = item.CategoryId }) |
+                    @Html.ActionLink("Details", "CategoryDetails", new { id = item.CategoryId }) |
+                </td>
+                @* Delete Functionality Requires Permissions *@
+                <td class="text-center">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-@item.CategoryId">
+                        Delete
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal-@item.CategoryId" tabindex="-1" role="dialog" aria-labelledby="notify-@item.CategoryId" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="notify-@item.CategoryId">@item.CategoryName</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete this Category?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    @using (Html.BeginForm(actionName: "RemoveCategory", controllerName: "Film", new { id = item.CategoryId }, method: FormMethod.Post))
+                                    {
+                                        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

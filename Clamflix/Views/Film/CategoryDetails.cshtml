@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Clam.Areas.Clamflix.Models.FilmCategorySelection>
+
+@{
+    ViewData["Title"] = "CategoryDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var CategoryName = ViewBag.CategoryName;
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/clamflix/film">Films</a></li>
+        <li class="breadcrumb-item"><a href="/clamflix/film/category">Cateogries</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@CategoryName</li>
+    </ol>
+</nav>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.IsSelected)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FilmTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FilmId)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.IsSelected)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FilmTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FilmId)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

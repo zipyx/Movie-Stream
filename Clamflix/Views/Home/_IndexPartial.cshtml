@@ -1,0 +1,286 @@
+﻿@model Clam.Areas.Clamflix.Models.ClamflixHome
+
+@if (Model.SearchRequest != null)
+{
+    <!-- Swiper Container for handling Selected Movie choices for client -->
+    <div class="swiper-container swiper-container-result">
+        <h2 style="text-align:left; float: left; color: whitesmoke">Searched for: </h2>
+        <h2 style="text-align:left; float: left; padding-left: 20px;">@Model.SearchRequest</h2>
+        <hr style="clear:both;" />
+        <p>Found @Model.Movies.Count results</p>
+        @if (Model.Movies.Count > 0)
+        {
+            <div class="swiper-wrapper">
+                @foreach (var item in Model.Movies)
+                {
+                    <div class="swiper-slide swiper-slide-result">
+                        <div class="imgBox">
+                            <a href="/clamflix/watch/@item.FilmId">
+                                <img src="~/AfpFData/@item.ImagePath" />
+                            </a>
+                        </div>
+                        <div class="details" id="filmName">
+                            <a href="/clamflix/watch/@item.FilmId">
+                                <h3>
+                                    @item.FilmTitle
+                                </h3>
+                            </a>
+                        </div>
+                        <div class="watch-container">
+                            <div class="button-group">
+                                <span>
+                                    @item.Year
+                                </span>
+                                <button type="button" class="video-btn" data-toggle="modal" data-src="@item.UrlEmbeddedVideo" data-target="#myModal">Trailer</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <!-- Add Pagination -->
+            @*<div class="swiper-pagination page-zero"></div>*@
+
+        }
+        else
+        {
+            <h5 style="color:whitesmoke">None Found</h5>
+        }
+
+    </div>
+    <br />
+}
+else
+{
+    <!-- Swiper Container for handling Carousel Items for Display -->
+    <div class="swiper-container-css-mode swiper-carousel">
+        <div class="swiper-wrapper">
+            @foreach (var item in Model.FeaturedList)
+            {
+                <div class="swiper-slide swiper-carousel-slide">
+                    <a href="clamflix/watch/@item.FilmId">
+                        <img class="object-fit_cover" src="~/AfpFData/@item.WallpaperPath" />
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+
+    <!-- Swiper Container for handling Featured films on display -->
+    <div class="swiper-container swiper-container-movie">
+        <h2>Featured Today</h2>
+        <h4>Fan favorites</h4>
+        <p>This week's top movies</p>
+        <div class="swiper-wrapper">
+            @foreach (var item in Model.FeaturedList)
+            {
+                <div class="swiper-slide swiper-slide-movie">
+                    <div class="imgBox">
+                        <a href="clamflix/watch/@item.FilmId">
+                            <img src="~/AfpFData/@item.ImagePath" />
+                        </a>
+                    </div>
+                    <div class="details" id="filmName">
+                        <a href="/clamflix/watch/@item.FilmId">
+                            <h3>
+                                @item.FilmTitle
+                            </h3>
+                        </a>
+                    </div>
+                    <div class="watch-container">
+                        <div class="button-group">
+                            <span>
+                                @item.Year
+                            </span>
+                            <button type="button" class="video-btn" data-toggle="modal" data-src="@item.UrlEmbeddedVideo" data-target="#myModal">Trailer</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <!-- Add Pagination -->
+        @*<div class="swiper-pagination page-zero"></div>*@
+    </div>
+    <br />
+
+    <!-- Swiper Container for handling Selected Movie choices for client -->
+    <div class="swiper-container swiper-container-movie">
+        <h2>What to watch</h2>
+        <h4>Movies</h4>
+        <p>Selected choices just for you</p>
+        <div class="swiper-wrapper">
+            @foreach (var item in Model.RecommendedList)
+            {
+                <div class="swiper-slide swiper-slide-movie">
+                    <div class="imgBox">
+                        <a href="/clamflix/watch/@item.FilmId">
+                            <img src="~/AfpFData/@item.ImagePath" />
+                        </a>
+                    </div>
+                    <div class="details" id="filmName">
+                        <a href="/clamflix/watch/@item.FilmId">
+                            <h3>
+                                @item.FilmTitle
+                            </h3>
+                        </a>
+                    </div>
+                    <div class="watch-container">
+                        <div class="button-group">
+                            <span>
+                                @item.Year
+                            </span>
+                            <button type="button" class="video-btn" data-toggle="modal" data-src="@item.UrlEmbeddedVideo" data-target="#myModal">Trailer</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <!-- Add Pagination -->
+        @*<div class="swiper-pagination page-zero"></div>*@
+
+    </div>
+    <br />
+
+    <!-- Swiper Container for handling Latest films -->
+    <div class="swiper-container swiper-container-movie">
+        <h2>Streaming Latest</h2>
+        <h4>Newly Released</h4>
+        <p>Check out these latest films</p>
+        <div class="swiper-wrapper">
+            @foreach (var item in Model.Latest)
+            {
+                <div class="swiper-slide swiper-slide-movie">
+                    <div class="imgBox">
+                        <img src="~/AfpFData/@item.ImagePath" />
+                    </div>
+                    <div class="details" id="filmName">
+                        <a href="/clamflix/watch/@item.FilmId">
+                            <h3>
+                                @item.FilmTitle
+                            </h3>
+                        </a>
+                    </div>
+                    <div class="watch-container">
+                        <div class="button-group">
+                            <span>
+                                @item.Year
+                            </span>
+                            <button type="button" class="video-btn" data-toggle="modal" data-src="@item.UrlEmbeddedVideo" data-target="#myModal">Trailer</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <!-- Add Pagination -->
+        @*<div class="swiper-pagination page-zero"></div>*@
+    </div>
+    <br />
+
+    <!-- Swiper Container for handling recently added movies -->
+    <div class="swiper-container swiper-container-movie">
+        <h4>Recently Added</h4>
+        <div class="swiper-wrapper">
+            @foreach (var item in Model.RecentlyAdded)
+            {
+                <div class="swiper-slide swiper-slide-movie">
+                    <div class="imgBox">
+                        <img src="~/AfpFData/@item.ImagePath" />
+                    </div>
+                    <div class="details" id="filmName">
+                        <a href="/clamflix/watch/@item.FilmId">
+                            <h3>
+                                @item.FilmTitle
+                            </h3>
+                        </a>
+                    </div>
+                    <div class="watch-container">
+                        <div class="button-group">
+                            <span>
+                                @item.Year
+                            </span>
+                            <button type="button" class="video-btn" data-toggle="modal" data-src="@item.UrlEmbeddedVideo" data-target="#myModal">Trailer</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <!-- Add Pagination -->
+        @*<div class="swiper-pagination"></div>*@
+    </div>
+    <br />
+
+    <!-- Section that handles all Genre films and lists them in their specificed categories -->
+    @foreach (var value in Model.AreaFilmflixCategories)
+    {
+        @if (value.AreaFilmflixCategoryMovies.Count != 0)
+        {
+            <div class="swiper-container swiper-genre">
+                <h3>@value.CategoryName</h3>
+                <div class="swiper-wrapper">
+                    @foreach (var item in value.AreaFilmflixCategoryMovies)
+                    {
+                        <div class="swiper-slide swiper-genre-slide">
+                            <div class="imgBox-genre">
+                                <a href="/clamflix/watch/@item.FilmId">
+                                    <img src="~/AfpFData/@item.ImagePath" class="w-100" />
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination page-two"></div>
+            </div>
+            <br />
+            <br />
+        }
+    }
+
+    <!-- Section for handling all TV Shows and their particular categories -->
+    <div>
+        @foreach (var categoryTV in Model.SectionTVShowCategories)
+        {
+            <br />
+            <div class="swiper-container swiper-container-media">
+                <h3>@categoryTV.Genre TV Shows</h3>
+                <p>List of available @categoryTV.Genre shows</p>
+                <div class="swiper-wrapper">
+                    @foreach (var sectionTV in categoryTV.SubCategoryList)
+                    {
+                        <div class="swiper-slide swiper-media-slide">
+                            <div class="imgBox-media">
+                                <h5>@sectionTV.TVShowTitle</h5>
+                                <a href="/clamflix/track/@sectionTV.TVShowId">
+                                    <img src="~/AfpIData/@sectionTV.ItemPath" />
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <br />
+        }
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

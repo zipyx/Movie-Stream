@@ -1,0 +1,67 @@
+﻿@model Clam.Areas.Clamflix.Models.ClamflixEpisode
+
+@{
+    ViewData["Title"] = "Episode";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/clamflix.css" />
+}
+@section Scripts {
+    <script src="~/js/clamflix/episode-search.js"></script>
+}
+<br />
+<br />
+<div class="selected-video">
+    <h4>@Html.DisplayFor(model => model.Episode.ItemTitle)</h4><br />
+    <div id="some-element">
+        <div class="video-frame table-responsive-sm">
+            <video id="videoplayer" width="1110" height="600" class="embed-responsive" controls>
+                <source src="~/AfpSData/@Model.Episode.ItemPath" type="video/mp4" />
+            </video>
+        </div>
+    </div>
+</div>
+
+<div class="display-tvshow-section">
+    <a href="/clamflix/track/@Model.Episode.TVShowId">
+        <h4>Return</h4>
+    </a>
+</div>
+
+<div class="container mt-3">
+    <br />
+    <div class="display-tvshow-section">
+        <h2>Season @Model.SeasonNumber</h2>
+        <p>Search for episodes</p>
+        <input class="form-control" type="text" id="myInput" placeholder="Search...." />
+    </div>
+    <br />
+    <table class="table display-tvshow-section">
+        <thead>
+            <tr>
+                <th>
+                    Episode
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            @foreach (var item in Model.SameSeasonEpisodes)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemTitle)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Watch", "Episode", "Home", new { id = item.ItemId }, new { @class = "btn btn-warning" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

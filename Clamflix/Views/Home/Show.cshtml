@@ -1,0 +1,132 @@
+﻿@model Clam.Areas.Clamflix.Models.ClamflixTVShow
+
+@{
+    ViewData["Title"] = "Show";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/clamflix.css" />
+}
+
+<div class="display-tvshow-section">
+    <h2>@Html.DisplayFor(model => model.TVShowDisplay.TVShowTitle)</h2>
+</div>
+
+<div class="display-tvshow-section">
+    <a href="/clamflix">
+        <h4>Return</h4>
+    </a>
+</div>
+
+@foreach (var currentShow in Model.TVShowSeasons)
+{
+    @if (currentShow.SubCategorySeasonItemList.Count != 0)
+    {
+        <br />
+        <div class="swiper-container swiper-container-episode">
+            <h3>Season @currentShow.TVShowSeasonNumber</h3>
+            <p>@currentShow.SubCategorySeasonItemList.Count episodes</p>
+            <div class="swiper-wrapper">
+                @foreach (var episode in currentShow.SubCategorySeasonItemList)
+                {
+                    <div class="swiper-slide swiper-slide-episode">
+                        <div class="imgBox-episode">
+                            <a href="/clamflix/episode/@episode.ItemId">
+                                <img src="~/AfpIData/@currentShow.ItemPath" alt="cover_image" />
+                            </a>
+                            <h5>@episode.ItemTitle</h5>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+
+        </div>
+        <br />
+    }
+}
+
+
+<div class="display-tvshow-section">
+    <h2>Other recommended shows</h2>
+</div>
+
+<div>
+    @foreach (var categoryTV in Model.CategoryTVShows)
+    {
+        <div class="swiper-container swiper-container-media">
+            <h3>@categoryTV.TVShowTitle TV Show</h3>
+            <p>@categoryTV.TVShowTitle seasons</p>
+            <div class="swiper-wrapper">
+                @foreach (var sectionTV in categoryTV.SubCategorySeasonList)
+                {
+                    <div class="swiper-slide swiper-media-slide">
+                        <div class="imgBox-media">
+                            <h5>Season @sectionTV.TVShowSeasonNumber</h5>
+                            <a href="/clamflix/track/@categoryTV.TVShowId">
+                                <img src="~/AfpIData/@categoryTV.ItemPath" />
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <br />
+    }
+</div>
+
+<!-- Initialize Swiper -->
+<script>
+
+    var swiper = new Swiper('.swiper-container-media', {
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflowEffect: {
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+        },
+        pagination: {
+            el: '.page-three',
+        },
+    });
+
+    var swiper = new Swiper('.swiper-container-episode', {
+        //slidesPerView: 3,
+        spaceBetween: 30,
+        //slidesPerGroup: 3,
+        loopFillGroupWithBlank: true,
+        breakpoints: {
+            640: {
+                slidesPerView: 1
+            },
+            768: {
+                slidesPerView: 2,
+                slidesPerGroup: 2
+            },
+            1024: {
+                slidesPerView: 3,
+                slidesPerGroup: 3
+            }
+        },
+        pagination: {
+            el: '.page-four',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

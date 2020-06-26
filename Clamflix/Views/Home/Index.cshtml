@@ -1,0 +1,230 @@
+﻿@model Clam.Areas.Clamflix.Models.ClamflixHome
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/clamflix.css" />
+}
+@section Scripts {
+    <script src="~/js/clamflix/youtube-modal-video.js"></script>
+    <script src="~/js/clamflix/clam-search.js"></script>
+}
+<a href="/clamflix">
+    <h1 style="color:#e50914;">Clamflix</h1>
+</a>
+
+<!-- Search Bar -->
+<div class="container">
+    <div class="display-tv-section">
+        <br />
+        <h2 style="color:whitesmoke">Search</h2>
+        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+        {
+            @Html.TextBox("search", null, null, new { @class = "form-control", @placeholder = "Movie, year, genre", @id = "myMovie" }) <br />
+            <input type="submit" value="Search" id="myMovie" class="btn btn-success" />
+        }
+    </div>
+</div>
+<br />
+
+<div id="page-content">
+    @await Html.PartialAsync("_IndexPartial")
+</div>
+
+<!-- Modal Trailer -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <!-- 16:9 aspect ratio -->
+                <div class="embed-responsive embed-responsive-21by9">
+                    <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Initialize Swiper -->
+<script>
+    var swiper = new Swiper('.swiper-container-movie', {
+        effect: 'coverflow',
+        grabCursor: true,
+        spaceBetween: 40,
+        slidesPerView: 'auto',
+
+        breakpoints: {
+            320: {
+                slidesPerView: 2
+            },
+            480: {
+                slidesPerView: 2
+            },
+            640: {
+                slidesPerView: 2
+            },
+            768: {
+                slidesPerView: 3,
+                slidesPerGroup: 3
+            },
+            850: {
+                slidesPerView: 4,
+                slidesPerGroup: 4
+            },
+            1024: {
+                slidesPerView: 5,
+                slidesPerGroup: 5
+            }
+        },
+
+        coverflowEffect: {
+            rotate: 0,
+            stretch: 0,
+            depth: 0,
+            modifier: 1,
+            slideShadows: false,
+        },
+
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        },
+
+        pagination: {
+            el: '.page-zero',
+            clickable: true,
+        }
+    });
+
+    var swiper = new Swiper('.swiper-carousel', {
+        cssMode: true,
+        spaceBetween: 0,
+        centeredSlides: true,
+        autoplay: {
+            delay: 3500,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.page-one',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+
+    var swiper = new Swiper('.swiper-genre', {
+        spaceBetween: 5,
+        slidesPerView: 3,
+        breakpoints: {
+            320: {
+                slidesPerView: 2
+            },
+            480: {
+                slidesPerView: 2
+            },
+            640: {
+                slidesPerView: 2
+            },
+            640: {
+                slidesPerView: 3,
+                spacebetween: 5
+            },
+            768: {
+                slidesPerView: 3,
+                spacebetween: 5
+            },
+            850: {
+                slidesPerView: 4,
+                slidesPerGroup: 4
+            },
+            1024: {
+                slidesPerView: 5,
+                spacebetween: 5
+            }
+        },
+        pagination: {
+            el: '.page-two',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+
+    var swiper = new Swiper('.swiper-container-media', {
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        loop: true,
+        coverflowEffect: {
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+        },
+        pagination: {
+            el: '.page-three',
+        },
+    });
+
+    var swiper = new Swiper('.swiper-container-result', {
+        effect: 'coverflow',
+        grabCursor: true,
+        spaceBetween: 40,
+
+        breakpoints: {
+            320: {
+                slidesPerView: 2
+            },
+            480: {
+                slidesPerView: 2
+            },
+            640: {
+                slidesPerView: 2
+            },
+            768: {
+                slidesPerView: 3,
+                slidesPerGroup: 3
+            },
+            850: {
+                slidesPerView: 4,
+                slidesPerGroup: 4
+            },
+            1024: {
+                slidesPerView: 5,
+                slidesPerGroup: 5
+            }
+        },
+
+        coverflowEffect: {
+            rotate: 0,
+            stretch: 0,
+            depth: 0,
+            modifier: 1,
+            slideShadows: false,
+        },
+
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        },
+
+        pagination: {
+            el: '.page-five',
+            clickable: true,
+        }
+    });
+
+</script>

@@ -1,0 +1,85 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ClamDataLibrary.Models
+@model Clam.Areas.Clamflix.Models.StreamEditModelFilmflixDisplay
+
+@{
+    ViewData["Title"] = "GetEditFilm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var FilmId = ViewBag.FilmId;
+}
+@inject SignInManager<ClamUserAccountRegister> SignInManager
+@inject UserManager<ClamUserAccountRegister> UserManager
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/clamflix/film">Films</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Film</li>
+    </ol>
+</nav>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm(actionName: "GetEditFilm", controllerName: "Film", method: FormMethod.Post, new { id = FilmId }))
+        {
+            @Html.ValidationSummary(message: "Ensure Field is filled in by specific requirements.", htmlAttributes: new { @class = "text-danger" })
+            <div class="form-group row">
+                @Html.LabelFor(model => model.FilmTitle, null, new { @class = "col-md-4 col-form-label control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.FilmTitle, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.FilmTitle, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Year, null, new { @class = "col-md-4 col-form-label control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.Year, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Year, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(model => model.UrlEmbeddedVideo, null, new { @class = "col-md-4 col-form-label control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.UrlEmbeddedVideo, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.UrlEmbeddedVideo, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Status, null, new { @class = "col-md-4 col-form-label control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(model => model.Status, new SelectList(ViewBag.ViewStatus, "Value", "Text"), new { @class = "form-control" })
+                </div>
+            </div>
+            if (SignInManager.IsSignedIn(User))
+            {
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.FilmId, null, new { @class = "col-md-4 col-form-label control-label", @hidden = "hidden" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.FilmId, null, new { @class = "form-control", @hidden = "hidden" })
+                        @Html.ValidationMessageFor(model => model.FilmId, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.UserId, null, new { @class = "col-md-4 col-form-label control-label", @hidden = "hidden" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.UserId, null, new { @class = "form-control", @hidden = "hidden" })
+                        @Html.ValidationMessageFor(model => model.UserId, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div>
+                    You are not permitted to upload data.
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

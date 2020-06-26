@@ -1,0 +1,56 @@
+﻿@model List<Clam.Areas.Clamflix.Models.FilmCategorySelection>
+
+@{
+    ViewData["Title"] = "CategorySelect";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var CategoryName = ViewBag.CategoryName;
+    var CategoryId = ViewBag.CategoryId;
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/clamflix/film">Films</a></li>
+        <li class="breadcrumb-item"><a href="/clamflix/film/category">Categories</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Add Film to Category</li>
+    </ol>
+</nav>
+
+@using (Html.BeginForm(actionName: "CategorySelectUpload", controllerName: "Film", new { id = CategoryId }, method: FormMethod.Post))
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>@CategoryName</h3>
+        </div>
+        <div class="card-body">
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="form-group row">
+                    <div class="form-check col-md-2">
+                        @Html.CheckBoxFor(model => Model[i].IsSelected, new { @class = "form-control" })
+                    </div>
+                    <div class="form-check col-md-3">
+                        @Html.TextBoxFor(model => Model[i].FilmTitle, new { @class = "form-control", @disabled = "disabled" })
+                        @Html.TextBoxFor(model => Model[i].FilmTitle, new { @class = "form-control", @hidden = "hidden" })
+                    </div>
+                    <div class="form-check col-md-2">
+                        @Html.TextBoxFor(model => Model[i].Year, new { @class = "form-control", @disabled = "disabled" })
+                        @Html.TextBoxFor(model => Model[i].Year, new { @class = "form-control", @hidden = "hidden" })
+                    </div>
+                    <div class="form-check col-md-5">
+                        @Html.TextBoxFor(model => Model[i].FilmId, new { @class = "form-control", @disabled = "disabled" })
+                        @Html.TextBoxFor(model => Model[i].FilmId, new { @class = "form-control", @hidden = "hidden" })
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            <input type="submit" value="Update" class="btn btn-primary" style="width:auto" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
